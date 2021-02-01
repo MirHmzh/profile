@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>My Title Last Forever</title>
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta name="author" content="Codrops" />
+		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo_custom.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo-switch-custom.css" />
+		<script>document.documentElement.className = 'js';</script>
+	</head>
+	<body class="demo-switch loading">
+		<main>
+			<div class="message">Please view this page on a desktop.</div>
+			<div class="frame">
+				<header class="codrops-header">
+					<div class="codrops-links">
+						<a class="codrops-icon codrops-icon--prev" href="https://tympanus.net/Development/GridLayoutSlideshow/" title="Previous Demo"><svg class="icon icon--arrow"><use xlink:href="#icon-arrow"></use></svg></a>
+						<a class="codrops-icon codrops-icon--drop" href="https://tympanus.net/codrops/?p=31849" title="Back to the article"><svg class="icon icon--drop"><use xlink:href="#icon-drop"></use></svg></a>
+					</div>
+				</header>
+			</div>
+			<div class="content">
+				<div class="slideshow">
+					<div class="pieces"></div>
+				</div>
+				<nav class="menu">
+					<a class="menu__item menu__item--current" href="#slide-1" data-image="img/2d.jpg">Amirrudin Hamzah<br>
+						<span>| formerly a Software Engineer | </span>
+						<span>DevOps Engineer | </span>
+						<span>Data Enthusiast | </span>
+						<span>Computer Science Student</span>
+					</a>
+				</nav>
+			</div>
+		</main>
+		<script src="js/imagesloaded.pkgd.min.js"></script>
+		<script src="js/anime.min.js"></script>
+		<script src="js/main.js"></script>
+		<script>
+		{
+			imagesLoaded(document.body, { background: true }, () => document.body.classList.remove('loading'));
+
+			const menuItems = Array.from(document.querySelectorAll('.menu > .menu__item'));
+
+			const piecesObj = new Pieces(document.querySelector('.slideshow > .pieces'), {
+				pieces: {rows: 14, columns: 12},
+				delay: [0,40],
+				hasTilt: true,
+				tilt: {
+					maxRotationX: -1,
+					maxRotationY: -1,
+					maxTranslationX: -5,
+					maxTranslationY: -2
+				}
+			});
+
+			let isAnimating = false;
+			let current = 0;
+
+			const openImage = () => {
+				const imgsrc = "img/raw.jpg";
+
+				piecesObj.animate({
+					duration: 1000,
+					easing: 'easeOutQuad',
+					delay: (t,i,l) => {
+						return parseInt(t.dataset.row) * parseInt(t.dataset.delay);
+					},
+					translateX: (t,i) => {
+						return anime.random(-50,50)+'px';
+					},
+					translateY: (t,i) => {
+						return anime.random(-800,-500)+'px';
+					},
+					rotateZ: (t,i) => {
+						return anime.random(-45,45)+'deg';
+					},
+					opacity: 0,
+					complete: () => {
+						piecesObj.setImage(imgsrc);
+
+						piecesObj.animate({
+							duration: 500,
+							easing: [0.3,1,0.3,1],
+							delay: (t,i,l) => {
+								return parseInt(t.dataset.row) * parseInt(t.dataset.delay);
+							},
+							translateX: 0,
+							translateY: () => {
+								return [anime.random(200,800)+'px','0px'];
+							},
+							rotateZ: 0,
+							opacity: {
+								value: 1,
+								duration: 500,
+								easing: 'linear'
+							},
+							complete: () => {
+								isAnimating = false;
+							}
+						});
+					}
+				});
+			};
+
+			piecesObj.setImage("img/raw.jpg");
+
+			piecesObj.animate({
+				duration: 1000,
+				easing: [0.3,1,0.3,1],
+				delay: (t,i,l) => {
+					return parseInt(t.dataset.row) * parseInt(t.dataset.delay);
+				},
+				translateX: 0,
+				translateY: () => {
+					return [anime.random(200,800)+'px','0px'];
+				},
+				rotateZ: 0,
+				opacity: {
+					value: 1,
+					duration: 1000,
+					easing: 'linear'
+				},
+				complete: () => {
+					isAnimating = false;
+				}
+			});
+
+			setInterval(() => {
+				openImage();
+			}, 5000)
+		}
+		</script>
+	</body>
+</html>
