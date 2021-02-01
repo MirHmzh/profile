@@ -108,28 +108,29 @@
 				});
 			};
 
-			piecesObj.setImage("img/raw.jpg");
-
-			piecesObj.animate({
-				duration: 1000,
-				easing: [0.3,1,0.3,1],
-				delay: (t,i,l) => {
-					return parseInt(t.dataset.row) * parseInt(t.dataset.delay);
-				},
-				translateX: 0,
-				translateY: () => {
-					return [anime.random(200,800)+'px','0px'];
-				},
-				rotateZ: 0,
-				opacity: {
-					value: 1,
+			setTimeout(() => {
+				piecesObj.setImage("img/raw.jpg");
+				piecesObj.animate({
 					duration: 1000,
-					easing: 'linear'
-				},
-				complete: () => {
-					isAnimating = false;
-				}
-			});
+					easing: [0.3,1,0.3,1],
+					delay: (t,i,l) => {
+						return parseInt(t.dataset.row) * parseInt(t.dataset.delay);
+					},
+					translateX: 0,
+					translateY: () => {
+						return [anime.random(200,800)+'px','0px'];
+					},
+					rotateZ: 0,
+					opacity: {
+						value: 1,
+						duration: 1000,
+						easing: 'linear'
+					},
+					complete: () => {
+						isAnimating = false;
+					}
+				});
+			}, 1000)
 
 			setInterval(() => {
 				openImage();
